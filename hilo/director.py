@@ -27,9 +27,9 @@ class Director:
 
         # these states are to control the flow of the game
         self.guess = ''
-        self.is_playing = True
+        self.is_playing = True      # this starts with True so start_game will work in the first time
         self.score = 0
-        self.total_score = 300
+        self.total_score = 300      # this is the initial amount of points given to the player
 
     def start_game(self):
         """Starts the game by running the main game loop.
