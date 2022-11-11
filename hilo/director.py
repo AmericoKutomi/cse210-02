@@ -21,8 +21,11 @@ class Director:
         Args:
             self (Director): an instance of Director.
         """
+        # card and next_card are instances of the class Card
         self.card = Card()
         self.next_card = Card()
+
+        # these states are to control the flow of the game
         self.guess = ''
         self.is_playing = True
         self.score = 0
@@ -34,6 +37,7 @@ class Director:
         Args:
             self (Director): an instance of Director.
         """
+        # the loop controls the flow of the game and it stops and is_playing is set to False
         while self.is_playing:
             self.show_card()
             self.get_input()
@@ -46,6 +50,7 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
+        # the get_value method of class Card is called to assign an integer value to the card
         self.card.get_value()
         print(f"\nThe card is: {self.card.value}")
 
@@ -55,37 +60,44 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
-        self.guess = input("Higher or lower? [h/l] ")
+        # Ask the user guess
+        self.guess = ''
+        while self.guess != 'h' and self.guess != 'l':
+            self.guess = input("Higher or lower? [h/l] ").lower()
 
     def show_next_card(self):
         """Displays the first card.
         Args:
             self (Director): An instance of Director.
         """
+        # the get_value method of class Card is called to assign an integer value this time to the second card
         self.next_card.get_value()
         print(f"Next card is: {self.next_card.value}")
 
     def make_evaluation(self):
-        """Updates the player's score.
+        """ Compares the values of the two cards.
+            The player's score is obtained according to his guess and the card values.
 
         Args:
             self (Director): An instance of Director.
         """
-        if self.guess == 'h':
-            if self.next_card.value > self.card.value:
+
+        if self.guess == 'h':                               # the user guessed higher
+            if self.next_card.value > self.card.value:      # the second card is higher than the first
                 self.score = 100
             else:
-                self.score = -75
-        else:
-            if self.next_card.value < self.card.value:
+                self.score = -75                            # the score can be positive or negative
+
+        else:                                               # the user guessed lower
+            if self.next_card.value < self.card.value:      # the second card is lower than the first
                 self.score = 100
             else:
                 self.score = -75
 
-        self.total_score += self.score
+        self.total_score += self.score                      # the round score is added to the overall score
 
     def show_score(self):
-        """Displays the score. 
+        """ Displays the score and decides the next step.
             If the score is negative or zero, it stops the game. 
             If the score is positive, asks the player if they want to play again. 
 
@@ -94,10 +106,21 @@ class Director:
         """
         print(f"Your score is: {self.total_score}\n")
 
-        if self.total_score <= 0:
-            self.is_playing = False
+        if self.total_score <= 0:                           # a zero or a negative total score will end the game
+            self.is_playing = False                         # when is_playing is set to False, it will cause the game to stop in the next loop
+            print('Your score is not enough to continue.')
             print('Game over.')
         else:
-            option = input("Play again? [y/n] ")
-            if option == 'n':
-                self.is_playing = False
+            option = ''
+            while option != 'y' and option != 'n':
+                option = input("Play again? [y/n] ").lower()  # the player has the option to continue or not
+
+                if option != 'y' and option != 'n':         # if the option is not valid, continue statement return to the loop
+                    continue
+
+                if option == 'n':
+                    self.is_playing = False
+                    print('Thanks for playing.')
+                    print('Game over.')
+
+

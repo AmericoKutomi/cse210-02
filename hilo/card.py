@@ -24,5 +24,6 @@ class Card:
         Args:
             self (Card): An instance of Card.
         """
-        self.value = random.randint(1, 6)
+        # the randinit function returns one integer random value between 1 and 13, both included.
+        self.value = random.randint(1, 13)
 
