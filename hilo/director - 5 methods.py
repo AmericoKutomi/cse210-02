@@ -39,14 +39,14 @@ class Director:
         """
         # the loop controls the flow of the game and it stops and is_playing is set to False
         while self.is_playing:
-            self.get_inputs()
-            self.do_updates()
-            self.do_outputs()
+            self.show_card()
+            self.get_input()
+            self.show_next_card()
+            self.make_evaluation()
+            self.show_score()
 
-    def get_inputs(self):
-        """ Displays the first card.
-            Ask the user if the next card is Higher or Lower than the first card
-
+    def show_card(self):
+        """Displays the first card.
         Args:
             self (Director): An instance of Director.
         """
@@ -54,15 +54,19 @@ class Director:
         self.card.get_value()
         print(f"\nThe card is: {self.card.value}")
 
+    def get_input(self):
+        """Ask the user if the next card is Higher or Lower than the first card
+
+        Args:
+            self (Director): An instance of Director.
+        """
         # Ask the user guess
         self.guess = ''
         while self.guess != 'h' and self.guess != 'l':
             self.guess = input("Higher or lower? [h/l] ").lower()
 
-    def do_updates(self):
-        """ Displays the next card.
-            Compares the values of the two cards.
-            The player's score is obtained according to his guess and the card values.
+    def show_next_card(self):
+        """Displays the first card.
         Args:
             self (Director): An instance of Director.
         """
@@ -70,7 +74,14 @@ class Director:
         self.next_card.get_value()
         print(f"Next card is: {self.next_card.value}")
 
-        # evaluate the results according to guess and card values
+    def make_evaluation(self):
+        """ Compares the values of the two cards.
+            The player's score is obtained according to his guess and the card values.
+
+        Args:
+            self (Director): An instance of Director.
+        """
+
         if self.guess == 'h':                               # the user guessed higher
             if self.next_card.value > self.card.value:      # the second card is higher than the first
                 self.score = 100
@@ -85,7 +96,7 @@ class Director:
 
         self.total_score += self.score                      # the round score is added to the overall score
 
-    def do_outputs(self):
+    def show_score(self):
         """ Displays the score and decides the next step.
             If the score is negative or zero, it stops the game. 
             If the score is positive, asks the player if they want to play again. 
